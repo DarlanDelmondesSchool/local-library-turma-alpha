@@ -20,18 +20,18 @@ jobs:
       with:
         name: ${{ env.NOME_ARTEFATO }}
         path: .
+
   deployS3:
-  	runs-on: ubuntu-latest
-  	name: Inclui arquivo de marcacao
-  	steps:
-  	- name: Download
-  		uses: actions/download-artifact@v2
-  		  with:
-  		    name: ${{ env.NOME_ARTEFATO }}
+    runs-on: ubuntu-latest
+    name: Inclui arquivo de marcacao
+    steps:
+    - name: Download
+      uses: actions/download-artifact@v2
+        with:
+          name: ${{ env.NOME_ARTEFATO }}
     - name: list dir
-      run: ls -ltra		
-  	- name: Add File
+      run: ls -ltra
+    - name: Add File
       run: echo 'Approved' > quality_gate_check.info
-  	- name: Send to S3
+    - name: Send to S3
       run: echo 'Send to S3'
-	
