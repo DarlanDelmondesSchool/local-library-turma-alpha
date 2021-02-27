@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: action/checkout@v2
       with:
-        repository: 'github.com/DarlanDelmondesSchool/devopslab'
+        repository: 'DarlanDelmondesSchool/devopslab'
     - uses: actions/upload-artifact@v2
       with:
         name: ${{ env.NOME_ARTEFATO }}
