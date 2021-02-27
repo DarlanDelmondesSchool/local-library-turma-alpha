@@ -15,6 +15,10 @@ jobs:
     - uses: action/checkout@v2
       with:
         repository: 'DarlanDelmondesSchool/devopslab'
+  checkout:
+    runs-on: ubuntu-latest
+    name: Upload
+    steps:
     - uses: actions/upload-artifact@v2
       with:
         name: ${{ env.NOME_ARTEFATO }}
