@@ -34,8 +34,9 @@ jobs:
       run: echo 'Approved' > quality_gate_check.info
     - name: list dir
       run: ls -ltra; pwd
-    - name: zip dir
+    - name: make dir
       run: mkdir pkg
+    - name: zip dir
       run: zip -r pkg/package.zip *
     - uses: vexelabs/s3-deploy@v1
       with:
