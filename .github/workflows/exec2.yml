@@ -5,9 +5,11 @@ on:
     branches: [ main ]
 env:
   NOME_ARTEFATO: "REPO"
+
 jobs:
-  runs-on: ubuntu-latest
+  
   checkout:
+    runs-on: ubuntu-latest
     name: Realiza Checkout via Action
     steps:
     - uses: action/checkout@v2
