@@ -18,13 +18,13 @@ jobs:
     - run: date
 
   job3:
-    name: MacOS Windows
+    name: Data MacOS
     runs-on: windows-latest
     steps:
     - run: date
     
   job4:
-    name: Data Windows
+    name: Final Job
     runs-on: windows-latest
     needs: [job1, job2, job3]
     steps:
