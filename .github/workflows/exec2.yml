@@ -40,7 +40,7 @@ jobs:
       with:
         args: --acl public-read --follow-symlinks --delete
       env:
-        SOURCE_DIR: '.'
+        SOURCE_DIR: 'package.zip'
         AWS_REGION: 'sa-east-1'
         AWS_S3_BUCKET: github-repo-s3
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
