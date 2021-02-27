@@ -15,7 +15,7 @@ jobs:
     - uses: action/checkout@v2
       with:
         repository: DarlanDelmondesSchool/devopslab
-  checkout:
+  upload:
     runs-on: ubuntu-latest
     name: Upload
     steps:
