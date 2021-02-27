@@ -42,5 +42,5 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
         aws-bucket: github-repo-s3
         aws-region: sa-east-1
-        directory: from_github
-        empty-bucket: true
+        directory: package.zip
+        empty-bucket: false
