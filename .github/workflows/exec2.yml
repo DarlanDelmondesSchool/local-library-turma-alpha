@@ -35,12 +35,13 @@ jobs:
     - name: list dir
       run: ls -ltra; pwd
     - name: zip dir
-      run: zip -r package.zip *
+      run: mkdir pkg
+      run: zip -r pkg/package.zip *
     - uses: vexelabs/s3-deploy@v1
       with:
         aws-key-id: ${{ secrets.AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
         aws-bucket: github-repo-s3
         aws-region: sa-east-1
-        directory: package.zip
+        directory: .
         empty-bucket: false
