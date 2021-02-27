@@ -1,15 +1,15 @@
-name: Exec2 Pipeline
+name: Exec2.5 Pipeline - Checkout + Upload + Download + Send to S3
 
 on:
   push:
     branches: [ main ]
 env:
-  NOME_ARTEFATO: REPO
+  NOME_ARTEFATO: myApp
 
 jobs:
   checkout:
     runs-on: ubuntu-latest
-    name: Realiza Checkout via Action
+    name: Realiza Checkout e Upload via Action
     steps:
     - name: Checkout
       uses: actions/checkout@v2.3.4
@@ -20,3 +20,19 @@ jobs:
       with:
         name: ${{ env.NOME_ARTEFATO }}
         path: .
+
+  deploy_S3:
+  	runs-on: ubuntu-latest
+  	name: Inclui arquivo de marcacao
+  	steps:
+  	- name: Download
+  		uses: actions/download-artifact@v2
+  		  with:
+  		    name: ${{ env.NOME_ARTEFATO }}
+    - name: list dir
+      run: ls -ltra		
+  	- name: Add File
+      run: echo 'Approved' > quality_gate_check.info
+  	- name: Send to S3
+      run: echo 'Send to S3'
+	
