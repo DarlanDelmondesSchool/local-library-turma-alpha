@@ -38,7 +38,7 @@ jobs:
       run: zip -r package.zip *
     - uses: vexelabs/s3-deploy@v1
       with:
-        aws-key-id: ${{ secrets.AWS_ACCES_KEY }}
+        aws-key-id: ${{ secrets.AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
         aws-bucket: github-repo-s3
         aws-region: sa-east-1
