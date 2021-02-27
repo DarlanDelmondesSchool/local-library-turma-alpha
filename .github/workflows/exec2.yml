@@ -30,9 +30,16 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: ${{ env.NOME_ARTEFATO }}
-    - name: list dir
-      run: ls -ltra
     - name: Add File
       run: echo 'Approved' > quality_gate_check.info
-    - name: Send to S3
-      run: echo 'Send to S3'
+    - name: list dir
+      run: ls -ltra
+    - name: zip dir
+      run: zip -r package.zip *
+    - uses: keithweaver/aws-s3-github-action@master
+      with:
+        command: cp
+        source: package.zip
+        destination: s3://github-repo-s3/github/package.zip
+        aws_access_key_id: ${{ secret.AWS_ACCESS_KEY }}
+        aws_secret_access_key: ${{ secret.AWS_SECRET_KEY }}
