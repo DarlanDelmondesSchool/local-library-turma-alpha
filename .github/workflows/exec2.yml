@@ -38,11 +38,13 @@ jobs:
       run: mkdir pkg
     - name: zip dir
       run: zip -r pkg/package.zip *
-    - uses: vexelabs/s3-deploy@v1
-      with:
-        aws-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-        aws-bucket: github-repo-s3
-        aws-region: sa-east-1
-        directory: pkg
-        empty-bucket: false
+     - name: Upload binary to S3 bucket
+       uses: tpaschalis/s3-sync-action@master
+       with:
+         args: --acl public-read
+       env:
+         FILE: pkg/package.zip
+         AWS_REGION: 'sa-east-1'
+         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
