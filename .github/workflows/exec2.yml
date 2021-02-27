@@ -40,6 +40,6 @@ jobs:
       with:
         command: cp
         source: package.zip
-        destination: s3://github-repo-s3/github/package.zip
+        destination: "s3://github-repo-s3/github/package.zip"
         aws_access_key_id: ${{ secret.AWS_ACCESS_KEY }}
         aws_secret_access_key: ${{ secret.AWS_SECRET_KEY }}
