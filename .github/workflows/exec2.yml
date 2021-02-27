@@ -36,12 +36,11 @@ jobs:
       run: ls -ltra; pwd
     - name: zip dir
       run: zip -r package.zip *
-    - uses: awact/s3-action@master
+    - uses: vexelabs/s3-deploy@v1
       with:
-        args: --acl public-read --follow-symlinks --delete
-      env:
-        SOURCE_DIR: 'package.zip'
-        AWS_REGION: 'sa-east-1'
-        AWS_S3_BUCKET: github-repo-s3
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+        aws-key-id: ${{ secrets.AWS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+        aws-bucket: github-repo-s3
+        aws-region: sa-east-1
+        directory: from_github
+        empty-bucket: true
