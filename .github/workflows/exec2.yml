@@ -7,14 +7,15 @@ env:
   NOME_ARTEFATO: REPO
 
 jobs:
-  
   checkout:
     runs-on: ubuntu-latest
     name: Realiza Checkout via Action
     steps:
-    - uses: action/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2.3.4
       with:
         repository: ${{ github.repository }}
-    - uses: actions/upload-artifact@v2
+    - name: Upload
+      uses: actions/upload-artifact@v2
       with:
         name: ${{ env.NOME_ARTEFATO }}
