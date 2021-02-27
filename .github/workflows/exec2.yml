@@ -24,6 +24,7 @@ jobs:
   deployS3:
     runs-on: ubuntu-latest
     name: Inclui arquivo de marcacao
+    needs: checkout
     steps:
     - name: Download
       uses: actions/download-artifact@v2
