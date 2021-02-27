@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
 env:
-  NOME_ARTEFATO: "REPO"
+  NOME_ARTEFATO: REPO
 
 jobs:
   
@@ -15,10 +15,6 @@ jobs:
     - uses: action/checkout@v2
       with:
         repository: ${{ github.repository }}
-  upload:
-    runs-on: ubuntu-latest
-    name: Upload
-    steps:
     - uses: actions/upload-artifact@v2
       with:
         name: ${{ env.NOME_ARTEFATO }}
