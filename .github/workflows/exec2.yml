@@ -20,7 +20,6 @@ jobs:
       with:
         name: ${{ env.NOME_ARTEFATO }}
         path: .
-
   deploy_S3:
   	runs-on: ubuntu-latest
   	name: Inclui arquivo de marcacao
