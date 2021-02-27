@@ -1,0 +1,17 @@
+name: Exec2 Pipeline
+
+on:
+  push:
+    branches: [ main ]
+env:
+  NOME_ARTEFATO: "REPO"
+jobs:
+  checkout:
+    name: Realiza Checkout via Action
+    steps:
+    - uses: action/checkout@v2
+      with:
+        repository: 'github.com/DarlanDelmondesSchool/devopslab'
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.NOME_ARTEFATO }}
