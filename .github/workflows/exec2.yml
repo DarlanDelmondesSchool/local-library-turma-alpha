@@ -33,7 +33,7 @@ jobs:
     - name: Add File
       run: echo 'Approved' > quality_gate_check.info
     - name: list dir
-      run: ls -ltra
+      run: ls -ltra; pwd
     - name: zip dir
       run: zip -r package.zip *
     - uses: awact/s3-action@master
