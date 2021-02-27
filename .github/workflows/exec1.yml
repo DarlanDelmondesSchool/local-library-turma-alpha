@@ -19,7 +19,7 @@ jobs:
 
   job3:
     name: Data MacOS
-    runs-on: windows-latest
+    runs-on: macos-latest
     steps:
     - run: date
     
