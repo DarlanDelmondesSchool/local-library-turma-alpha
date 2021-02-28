@@ -27,7 +27,9 @@ jobs:
     needs: checkout
     steps:
     -name: Get Offical version_app
-      run: aws lambda invoke --function-name UpdateVersion version.txt; export VERSION=$(cat version.txt); echo $VERSION;
+      run: aws lambda invoke --function-name UpdateVersion version.txt
+    -run: export VERSION=$(cat version.txt)
+    -run: echo $VERSION
     - name: Download
       uses: actions/download-artifact@v2
       with:
