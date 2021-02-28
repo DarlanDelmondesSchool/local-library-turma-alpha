@@ -1,4 +1,4 @@
-name: Exec2.5 Pipeline - Checkout + Upload + Download + GetVersion + Send to S3 + SNS
+name: Exec2.5 Pipeline - Checkout + Upload + Download + GetVersion + Send to S3 + SNS + Cloudformation Stack
 # ideia: Cloudformation --> EC2 com a versao do S3
 
 on:
@@ -55,7 +55,7 @@ jobs:
   #       export VERSION=$(cat version.txt); echo $VERSION; aws sns publish --topic-arn "${{ secrets.ARN_TOPIC_AWS }}" --message "Deploy v-$(echo $VERSION) Realizado com Sucesso"
     - name: Creating a New Bucket S3
       run: |
-        export VERSION=$(cat version.txt); aws cloudformation create-stack --stack-name myteststack-$(echo $VERSION) --template-body file://template.yaml
+        export VERSION=$(cat version.txt); aws cloudformation create-stack --stack-name myteststack-$(echo $VERSION) --template-body file://cloudformation/template.yaml
 
 
 
