@@ -47,3 +47,7 @@ jobs:
     - name: Copy files to the test website with the AWS CLI
       run: |
         aws s3 cp pkg/package.zip s3://github-repo-s3/myApp.zip
+    - name: Sending SMS via sns
+      run: |
+        aws sns publish --topic-arn "${{ secrets.ARN_TOPIC_AWS }}" --message "Deploy Realizado com Sucesso"
+
