@@ -3,4 +3,4 @@ Resources:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
     Properties:
-      BucketName: DOC-EXAMPLE-BUCKET-133131
+      BucketName: new-bucket-to-test-github-action
