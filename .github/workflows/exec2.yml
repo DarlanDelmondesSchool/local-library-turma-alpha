@@ -43,15 +43,15 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
         aws-region: sa-east-1
     - name: Get Offical version_app
-      run: aws lambda invoke --function-name UpdateVersion version.txt; export VERSION=$(cat version.txt); echo $VERSION
+      run: aws lambda invoke --function-name UpdateVersion version.txt
     - name: zip dir
-      run: zip -r pkg/package-$(echo $VERSION).zip *
+      run: export VERSION=$(cat version.txt); echo $VERSION; zip -r pkg/package-$(echo $VERSION).zip *
     - name: Copy files to the test website with the AWS CLI
       run: |
-        aws s3 cp pkg/package-$(echo $VERSION).zip s3://github-repo-s3/myApp-version-$(echo $VERSION).zip
+        export VERSION=$(cat version.txt); echo $VERSION; aws s3 cp pkg/package-$(echo $VERSION).zip s3://github-repo-s3/myApp-version-$(echo $VERSION).zip
     - name: Sending SMS via sns
       run: |
-        aws sns publish --topic-arn "${{ secrets.ARN_TOPIC_AWS }}" --message "Deploy v-$(echo $VERSION) Realizado com Sucesso"
+        export VERSION=$(cat version.txt); echo $VERSION; aws sns publish --topic-arn "${{ secrets.ARN_TOPIC_AWS }}" --message "Deploy v-$(echo $VERSION) Realizado com Sucesso"
 
 
 
