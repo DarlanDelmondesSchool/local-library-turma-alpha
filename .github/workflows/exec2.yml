@@ -1,4 +1,4 @@
-name: Exec2.5 Pipeline - Checkout + Upload + Download + Send to S3
+name: Exec2.5 Pipeline - Checkout + Upload + Download + GetVersion + Send to S3
 
 on:
   push:
@@ -48,10 +48,10 @@ jobs:
       run: zip -r pkg/package-$(echo $VERSION).zip *
     - name: Copy files to the test website with the AWS CLI
       run: |
-        aws s3 cp pkg/package-$(echo $VERSION).zip s3://github-repo-s3/myApp.zip
+        aws s3 cp pkg/package-$(echo $VERSION).zip s3://github-repo-s3/myApp-version-$(echo $VERSION).zip
     - name: Sending SMS via sns
       run: |
-        aws sns publish --topic-arn "${{ secrets.ARN_TOPIC_AWS }}" --message "Deploy Realizado com Sucesso"
+        aws sns publish --topic-arn "${{ secrets.ARN_TOPIC_AWS }}" --message "Deploy v-$(echo $VERSION) Realizado com Sucesso"
 
 
 
