@@ -26,8 +26,6 @@ jobs:
     name: Inclui arquivo de marcacao
     needs: checkout
     steps:
-    - name: Get Offical version_app
-      run: aws lambda invoke --function-name UpdateVersion version.txt; export VERSION=$(cat version.txt); echo $VERSION
     - name: Download
       uses: actions/download-artifact@v2
       with:
@@ -46,6 +44,8 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
         aws-region: sa-east-1
+    - name: Get Offical version_app
+      run: aws lambda invoke --function-name UpdateVersion version.txt; export VERSION=$(cat version.txt); echo $VERSION
     - name: Copy files to the test website with the AWS CLI
       run: |
         aws s3 cp pkg/package.zip s3://github-repo-s3/myApp.zip
