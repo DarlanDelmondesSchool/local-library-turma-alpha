@@ -37,12 +37,12 @@ jobs:
   #     run: ls -ltra; pwd
   #   - name: make dir
   #     run: mkdir pkg
-  #   - name: Configure AWS credentials from Test account
-  #     uses: aws-actions/configure-aws-credentials@v1
-  #     with:
-  #       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-  #       aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-  #       aws-region: sa-east-1
+    - name: Configure AWS credentials from Test account
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+        aws-region: sa-east-1
   #   - name: Get Offical version_app
   #     run: aws lambda invoke --function-name UpdateVersion version.txt
   #   - name: zip dir
@@ -53,12 +53,12 @@ jobs:
   #   - name: Sending SMS via sns
   #     run: |
   #       export VERSION=$(cat version.txt); echo $VERSION; aws sns publish --topic-arn "${{ secrets.ARN_TOPIC_AWS }}" --message "Deploy v-$(echo $VERSION) Realizado com Sucesso"
-    - name: Deploy a new S3
-      uses: aws-actions/aws-cloudformation-github-deploy@master
-      with:
-        name: s3-github-bucket
-        template: cloudformation/template.yaml
-        no-fail-on-empty-changeset: "1"
+    - name: Creating a New Bucket S3
+      run: |
+        export VERSION=$(cat version.txt); aws cloudformation create-stack --stack-name myteststack-$(echo $VERSION) --template-body file://template.yaml
+
+
+
 
 
 
