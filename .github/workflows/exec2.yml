@@ -26,6 +26,9 @@ jobs:
     name: Inclui arquivo de marcacao
     needs: checkout
     steps:
+    -name: Get Offical version_app
+      run: |
+        aws lambda invoke --function-name UpdateVersion version.txt; export VERSION=$(cat version.txt); echo $VERSION;
     - name: Download
       uses: actions/download-artifact@v2
       with:
@@ -50,4 +53,9 @@ jobs:
     - name: Sending SMS via sns
       run: |
         aws sns publish --topic-arn "${{ secrets.ARN_TOPIC_AWS }}" --message "Deploy Realizado com Sucesso"
+
+
+
+
+
 
