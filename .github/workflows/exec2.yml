@@ -27,7 +27,7 @@ jobs:
     name: Mark Quality Gate Check
     needs: checkout
     steps:
-      - name: Add File Check OK
+    - name: Add File Check OK
       run: echo 'Approved' > quality_gate_check.info
 
   deployS3:
