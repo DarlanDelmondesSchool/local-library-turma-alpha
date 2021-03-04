@@ -10,7 +10,7 @@ env:
 jobs:
   checkout:
     runs-on: ubuntu-latest
-    name: Realiza Checkout e Upload via Action
+    name: Upload Action
     steps:
     - name: Checkout
       uses: actions/checkout@v2.3.4
@@ -22,42 +22,44 @@ jobs:
         name: ${{ env.NOME_ARTEFATO }}
         path: .
 
+  checkQAGate:
+    runs-on: ubuntu-latest
+    name: Mark Quality Gate Check
+    needs: checkout
+    steps:
+      - name: Add File Check OK
+      run: echo 'Approved' > quality_gate_check.info
+
   deployS3:
     runs-on: ubuntu-latest
-    name: Inclui arquivo de marcacao
-    needs: checkout
+    name: Deploy S3
+    needs: [ checkout, checkQAGate ]
     steps:
     - name: Download
       uses: actions/download-artifact@v2
       with:
         name: ${{ env.NOME_ARTEFATO }}
-    - name: Add File
-      run: echo 'Approved' > quality_gate_check.info
-    - name: list dir
-      run: ls -ltra; pwd
-    - name: make dir
+    - name: make dir to save package
       run: mkdir pkg
-    - name: Configure AWS credentials from Test account
+    - name: Configure AWS CLI
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
         aws-region: sa-east-1
-    - name: Get Offical version_app
-      run: aws lambda invoke --function-name UpdateVersion version.txt
-  #   - name: zip dir
-  #     run: export VERSION=$(cat version.txt); echo $VERSION; zip -r pkg/package-$(echo $VERSION).zip *
-  #   - name: Copy files to the test website with the AWS CLI
-  #     run: |
-  #       export VERSION=$(cat version.txt); echo $VERSION; aws s3 cp pkg/package-$(echo $VERSION).zip s3://github-repo-s3/myApp-version-$(echo $VERSION).zip
-  #   - name: Sending SMS via sns
-  #     run: |
-  #       export VERSION=$(cat version.txt); echo $VERSION; aws sns publish --topic-arn "${{ secrets.ARN_TOPIC_AWS }}" --message "Deploy v-$(echo $VERSION) Realizado com Sucesso"
+    - name: Invoke Update Version Lambda DynamoDB
+      run: aws lambda invoke --function-name UpdateVersion version
+    - name: Create a zip file
+      run: export VERSION=$(cat version); echo $VERSION; zip -r pkg/package-$(echo $VERSION).zip *
     - name: Creating a New Bucket S3
       run: |
-        export VERSION=$(cat version.txt); aws cloudformation create-stack --stack-name myteststack-$(echo $VERSION) --template-body file://cloudformation/template.yaml
-
-
+        export VERSION=$(cat version); aws cloudformation create-stack --stack-name myteststack-$(echo $VERSION) --template-body file://cloudformation/template.yaml
+    - name: Copy files to S3 AWS CLI with Version
+      run: |
+        export VERSION=$(cat version); echo $VERSION; aws s3 cp pkg/package-$(echo $VERSION).zip s3://github-repo-s3/myApp-version-$(echo $VERSION).zip
+    - name: Sending MAIL via SNS
+      run: |
+        export VERSION=$(cat version); echo $VERSION; aws sns publish --topic-arn "${{ secrets.ARN_TOPIC_AWS }}" --message "Deploy v-$(echo $VERSION) Realizado com Sucesso"
 
 
 
